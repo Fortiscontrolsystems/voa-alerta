@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Voa Alerta — Promoções de voo Brasil ↔ EUA no seu WhatsApp</title>
+<meta name="description" content="A gente vigia os preços de Miami, Orlando e Nova York para o Brasil 24h por dia. Quando o preço despenca, você recebe no WhatsApp antes de todo mundo.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@500;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --paper:#F2F7F4;      /* cool mint-white sky */
+  --ink:#0B2B26;        /* deep green-black */
+  --wa:#128C7E;         /* WhatsApp deep teal-green */
+  --wa-bright:#25D366;  /* WhatsApp bright (accents only) */
+  --bubble:#DCF8C6;     /* authentic WA bubble green */
+  --amber:#FFB703;      /* deal-tag amber */
+  --board:#0E1F1C;      /* departure board */
+  --board-text:#E8F5EE;
+  --muted:#5A736C;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*,*::before,*::after{animation:none!important;transition:none!important}}
+body{
+  font-family:'Archivo',system-ui,sans-serif;
+  font-variation-settings:'wdth' 100;
+  background:var(--paper);color:var(--ink);
+  line-height:1.55;-webkit-font-smoothing:antialiased;
+}
+.wrap{max-width:680px;margin:0 auto;padding:0 20px}
+.mono{font-family:'IBM Plex Mono',monospace}
+
+/* ---------- header ---------- */
+header{padding:18px 0;border-bottom:2px solid var(--ink)}
+header .wrap{display:flex;align-items:center;justify-content:space-between}
+.logo{font-weight:900;font-size:1.25rem;letter-spacing:-.02em;text-transform:uppercase}
+.logo span{color:var(--wa)}
+.logo .paper-plane{display:inline-block;transform:translateY(-1px)}
+header a.top-cta{
+  font-size:.85rem;font-weight:700;color:var(--paper);background:var(--wa);
+  padding:8px 14px;border-radius:999px;text-decoration:none;white-space:nowrap;
+}
+
+/* ---------- hero ---------- */
+.hero{padding:52px 0 40px;text-align:left}
+.hero h1{
+  font-weight:900;font-variation-settings:'wdth' 75;
+  font-size:clamp(2.1rem,7.5vw,3.4rem);line-height:1.04;
+  letter-spacing:-.02em;text-transform:uppercase;
+}
+.hero h1 em{font-style:normal;color:var(--wa)}
+.hero p.sub{margin:18px 0 0;font-size:1.05rem;color:var(--muted);max-width:34ch}
+
+/* phone chat — the product itself */
+.chat{
+  margin:34px auto 0;max-width:390px;background:#EFE7DC;
+  border:2px solid var(--ink);border-radius:22px;overflow:hidden;
+  box-shadow:8px 8px 0 var(--ink);
+}
+.chat-top{background:var(--wa);color:#fff;padding:11px 16px;display:flex;align-items:center;gap:10px}
+.chat-top .avatar{width:30px;height:30px;border-radius:50%;background:var(--amber);display:grid;place-items:center;font-size:15px}
+.chat-top .name{font-weight:700;font-size:.9rem;line-height:1.1}
+.chat-top .status{font-size:.7rem;opacity:.85}
+.chat-body{padding:16px 14px 20px;background:
+  linear-gradient(rgba(239,231,220,.94),rgba(239,231,220,.94))}
+.msg{
+  background:var(--bubble);border-radius:12px;border-top-left-radius:2px;
+  padding:12px 14px;font-size:.92rem;line-height:1.5;max-width:95%;
+  box-shadow:0 1px 1px rgba(0,0,0,.12);
+  animation:pop .45s cubic-bezier(.2,.9,.3,1.2) both;
+}
+@keyframes pop{from{opacity:0;transform:translateY(10px) scale(.97)}to{opacity:1;transform:none}}
+.msg .route{font-weight:900;font-size:1rem}
+.msg .price{
+  font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1.15rem;
+  background:var(--amber);padding:1px 7px;border-radius:5px;display:inline-block;margin:5px 0;
+}
+.msg .old{ text-decoration:line-through;opacity:.6;font-size:.85rem;font-weight:500 }
+.msg .meta{display:block;margin-top:6px;font-size:.84rem}
+.msg .time{display:block;text-align:right;font-size:.68rem;color:var(--muted);margin-top:6px}
+
+/* CTA */
+.cta-block{margin:34px 0 0;text-align:center}
+a.btn{
+  display:block;text-decoration:none;font-weight:800;font-size:1.08rem;
+  padding:17px 20px;border-radius:14px;border:2px solid var(--ink);
+}
+a.btn-primary{
+  background:var(--wa);color:#fff;box-shadow:5px 5px 0 var(--ink);
+  transition:transform .12s,box-shadow .12s;
+}
+a.btn-primary:hover{transform:translate(2px,2px);box-shadow:3px 3px 0 var(--ink)}
+a.btn-primary:focus-visible,a.btn-ghost:focus-visible,header a.top-cta:focus-visible{outline:3px solid var(--amber);outline-offset:3px}
+.cta-block .note{margin-top:10px;font-size:.82rem;color:var(--muted)}
+
+/* ---------- departure board (recent deals) ---------- */
+.section{padding:52px 0}
+.section h2{
+  font-weight:900;text-transform:uppercase;letter-spacing:-.01em;
+  font-size:clamp(1.4rem,4.5vw,1.9rem);font-variation-settings:'wdth' 80;
+  margin-bottom:8px;
+}
+.section p.lead{color:var(--muted);margin-bottom:26px;max-width:46ch}
+.board{
+  background:var(--board);color:var(--board-text);border-radius:14px;
+  padding:18px 16px;border:2px solid var(--ink);overflow-x:auto;
+}
+.board .board-head{
+  font-family:'IBM Plex Mono',monospace;font-size:.68rem;letter-spacing:.14em;
+  text-transform:uppercase;opacity:.55;display:grid;
+  grid-template-columns:1fr auto auto;gap:12px;padding:0 4px 10px;
+}
+.board .row{
+  font-family:'IBM Plex Mono',monospace;display:grid;
+  grid-template-columns:1fr auto auto;gap:12px;align-items:center;
+  padding:11px 4px;border-top:1px dashed rgba(232,245,238,.18);font-size:.85rem;
+}
+.board .row .rt{font-weight:700}
+.board .row .off{color:var(--wa-bright);font-weight:700}
+.board .row .pr{color:var(--amber);font-weight:700}
+.board-note{font-size:.75rem;opacity:.5;padding-top:12px;font-family:'IBM Plex Mono',monospace}
+
+/* ---------- how it works ---------- */
+.steps{display:grid;gap:14px}
+.step{
+  border:2px solid var(--ink);border-radius:14px;padding:18px;background:#fff;
+  display:grid;grid-template-columns:44px 1fr;gap:14px;align-items:start;
+}
+.step .n{
+  font-family:'IBM Plex Mono',monospace;font-weight:700;font-size:1rem;
+  width:44px;height:44px;border-radius:10px;background:var(--ink);color:var(--paper);
+  display:grid;place-items:center;
+}
+.step h3{font-size:1rem;font-weight:800;margin-bottom:3px}
+.step p{font-size:.9rem;color:var(--muted)}
+
+/* ---------- tiers ---------- */
+.tiers{display:grid;gap:16px}
+@media(min-width:560px){.tiers{grid-template-columns:1fr 1fr}}
+.tier{border:2px solid var(--ink);border-radius:16px;padding:22px;background:#fff;display:flex;flex-direction:column}
+.tier.vip{background:var(--ink);color:var(--paper)}
+.tier .tag{
+  font-family:'IBM Plex Mono',monospace;font-size:.7rem;letter-spacing:.16em;
+  text-transform:uppercase;margin-bottom:8px;opacity:.7;
+}
+.tier .price-line{font-weight:900;font-size:1.7rem;letter-spacing:-.02em}
+.tier .price-line small{font-size:.85rem;font-weight:500;opacity:.7}
+.tier ul{list-style:none;margin:16px 0 22px;flex:1}
+.tier li{font-size:.9rem;padding:6px 0 6px 26px;position:relative}
+.tier li::before{content:"✓";position:absolute;left:0;font-weight:900;color:var(--wa)}
+.tier.vip li::before{color:var(--wa-bright)}
+.tier li.no{opacity:.45}
+.tier li.no::before{content:"—"}
+a.btn-ghost{background:#fff;color:var(--ink);text-align:center;font-size:.95rem;padding:13px}
+.tier.vip a.btn{background:var(--wa-bright);color:var(--ink);border-color:var(--wa-bright);text-align:center;font-size:.95rem;padding:13px;box-shadow:none}
+.badge{
+  display:inline-block;background:var(--amber);color:var(--ink);
+  font-size:.68rem;font-weight:800;letter-spacing:.08em;text-transform:uppercase;
+  padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;
+}
+
+/* ---------- FAQ ---------- */
+details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin-bottom:10px}
+summary{cursor:pointer;font-weight:700;font-size:.95rem;padding:15px 18px;list-style:none;display:flex;justify-content:space-between;align-items:center}
+summary::-webkit-details-marker{display:none}
+summary::after{content:"+";font-weight:900;font-size:1.2rem;color:var(--wa)}
+details[open] summary::after{content:"–"}
+details .a{padding:0 18px 16px;font-size:.9rem;color:var(--muted)}
+
+/* ---------- footer ---------- */
+footer{border-top:2px solid var(--ink);padding:28px 0 40px;margin-top:20px}
+footer .wrap{display:flex;flex-direction:column;gap:6px}
+footer .logo{font-size:1rem}
+footer p{font-size:.78rem;color:var(--muted)}
+</style>
+</head>
+<body>
+
+<header>
+  <div class="wrap">
+    <div class="logo"><span class="paper-plane">✈</span> Voa <span>Alerta</span></div>
+    <!-- TODO: replace # with your WhatsApp Channel invite link -->
+    <a class="top-cta" href="#planos">Entrar grátis</a>
+  </div>
+</header>
+
+<section class="hero">
+  <div class="wrap">
+    <h1>O preço caiu?<br><em>Você fica sabendo primeiro.</em></h1>
+    <p class="sub">Vigiamos as passagens EUA ↔ Brasil 24 horas por dia. Quando aparece um preço fora do normal, o alerta chega direto no seu WhatsApp.</p>
+
+    <div class="chat" role="img" aria-label="Exemplo de alerta de promoção recebido no WhatsApp">
+      <div class="chat-top">
+        <div class="avatar">✈</div>
+        <div>
+          <div class="name">Voa Alerta</div>
+          <div class="status">online</div>
+        </div>
+      </div>
+      <div class="chat-body">
+        <div class="msg">
+          <span class="route">✈️ Miami → Salvador</span> (ida e volta)<br>
+          <span class="old">preço normal US$ 955</span><br>
+          <span class="price">US$ 512</span> <strong>· 46% abaixo do normal</strong>
+          <span class="meta">📅 19–29 de novembro · mala incluída</span>
+          <span class="meta">⚡ Promoções assim somem em horas. Corre!</span>
+          <span class="time">14:32 ✓✓</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="cta-block">
+      <!-- TODO: replace # with your WhatsApp Channel invite link -->
+      <a class="btn btn-primary" href="#planos">Quero receber os alertas →</a>
+      <p class="note">Grátis para começar. Sem app, sem cadastro — só WhatsApp.</p>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Promoções que o radar já pegou</h2>
+    <p class="lead">Preços reais encontrados pelo nosso monitoramento. É esse tipo de alerta que chega no seu telefone.</p>
+    <div class="board">
+      <div class="board-head"><span>Rota</span><span>Desconto</span><span>Preço</span></div>
+      <div class="row"><span class="rt">MIA → SSA</span><span class="off">-46%</span><span class="pr">US$ 512</span></div>
+      <div class="row"><span class="rt">MCO → GRU</span><span class="off">-38%</span><span class="pr">US$ 489</span></div>
+      <div class="row"><span class="rt">JFK → GIG</span><span class="off">-33%</span><span class="pr">US$ 545</span></div>
+      <div class="row"><span class="rt">MIA → FOR</span><span class="off">-31%</span><span class="pr">US$ 468</span></div>
+      <div class="row"><span class="rt">FLL → CNF</span><span class="off">-29%</span><span class="pr">US$ 530</span></div>
+      <div class="board-note">* exemplos de alertas recentes · preços de ida e volta · sujeitos a disponibilidade</div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Como funciona</h2>
+    <p class="lead">Você não pesquisa nada. A gente caça, você embarca.</p>
+    <div class="steps">
+      <div class="step">
+        <div class="n">1</div>
+        <div><h3>Nosso radar monitora os preços sem parar</h3>
+        <p>Miami, Fort Lauderdale, Orlando e Nova York para as principais cidades do Brasil — de madrugada, fim de semana, feriado.</p></div>
+      </div>
+      <div class="step">
+        <div class="n">2</div>
+        <div><h3>O sistema aprende o preço normal de cada rota</h3>
+        <p>Só disparamos alerta quando o preço está de verdade abaixo do histórico — nada de "promoção" falsa.</p></div>
+      </div>
+      <div class="step">
+        <div class="n">3</div>
+        <div><h3>Você recebe no WhatsApp e reserva primeiro</h3>
+        <p>Alerta com datas, companhia e link direto para reservar, antes da promoção acabar.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="planos">
+  <div class="wrap">
+    <h2>Escolha como quer voar</h2>
+    <p class="lead">Comece grátis. Faça upgrade quando não quiser mais perder nenhuma promoção.</p>
+    <div class="tiers">
+      <div class="tier">
+        <div class="tag">Canal grátis</div>
+        <div class="price-line">R$ 0 <small>/ sempre</small></div>
+        <ul>
+          <li>1–2 promoções por semana no canal</li>
+          <li>Rotas EUA ↔ Brasil mais populares</li>
+          <li class="no">Alertas com 24h de atraso</li>
+          <li class="no">Sem personalização de rotas</li>
+        </ul>
+        <!-- TODO: replace # with your WhatsApp Channel invite link -->
+        <a class="btn btn-ghost" href="#">Entrar no canal grátis</a>
+      </div>
+      <div class="tier vip">
+        <div class="tag">VIP <span class="badge">em breve</span></div>
+        <div class="price-line">R$ 19 <small>/ mês</small></div>
+        <ul>
+          <li>Todos os alertas, na hora que a promoção surge</li>
+          <li>Você escolhe seus aeroportos e destinos</li>
+          <li>Mensagem individual no seu WhatsApp</li>
+          <li>Pagamento por Pix ou cartão</li>
+        </ul>
+        <!-- TODO: replace # with wa.me link to your business number -->
+        <a class="btn" href="#">Entrar na lista de espera</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section">
+  <div class="wrap">
+    <h2>Perguntas frequentes</h2>
+    <details>
+      <summary>É uma agência de viagens?</summary>
+      <div class="a">Não. A gente não vende passagem — a gente avisa quando o preço despenca. A reserva você faz direto no site da companhia ou buscador, pelo link do alerta.</div>
+    </details>
+    <details>
+      <summary>Por que pagar se o Google Flights é grátis?</summary>
+      <div class="a">O Google mostra o preço quando você pesquisa. A gente pesquisa por você, o dia inteiro, e te avisa no minuto em que aparece um preço fora do padrão. Promoção boa dura horas — quem espera pesquisar, perde.</div>
+    </details>
+    <details>
+      <summary>Funciona para quem mora no Brasil?</summary>
+      <div class="a">Sim! Monitoramos os dois sentidos. Serve tanto para quem mora nos EUA e visita a família quanto para quem vai dos EUA ao Brasil ou planeja férias na Flórida.</div>
+    </details>
+    <details>
+      <summary>Preciso instalar alguma coisa?</summary>
+      <div class="a">Não. Tudo acontece no WhatsApp que você já usa. Sem app, sem site para ficar logando.</div>
+    </details>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="logo">✈ Voa <span style="color:var(--wa)">Alerta</span></div>
+    <p>Alertas de promoções de passagens aéreas EUA ↔ Brasil.</p>
+    <p>Preços encontrados em buscadores parceiros; disponibilidade pode mudar a qualquer momento. Podemos receber comissão por reservas feitas pelos nossos links — sem custo extra para você.</p>
+  </div>
+</footer>
+
+</body>
+</html>
