@@ -161,6 +161,26 @@ a.btn-ghost{background:#fff;color:var(--ink);text-align:center;font-size:.95rem;
   padding:3px 9px;border-radius:999px;margin-left:8px;vertical-align:middle;
 }
 
+
+/* ---------- VIP waitlist form ---------- */
+#vip-form .fld{margin-bottom:12px}
+#vip-form label{display:block;font-size:.72rem;font-family:'IBM Plex Mono',monospace;
+  letter-spacing:.1em;text-transform:uppercase;opacity:.75;margin-bottom:5px}
+#vip-form input,#vip-form select{
+  width:100%;padding:11px 12px;border-radius:10px;border:2px solid rgba(242,247,244,.25);
+  background:rgba(242,247,244,.07);color:var(--paper);font-family:'Archivo',sans-serif;
+  font-size:.95rem;outline:none;
+}
+#vip-form input::placeholder{color:rgba(242,247,244,.4)}
+#vip-form input:focus,#vip-form select:focus{border-color:var(--wa-bright)}
+#vip-form select option{color:var(--ink)}
+#vip-form button{width:100%;background:var(--wa-bright);color:var(--ink);
+  border-color:var(--wa-bright);font-size:.95rem;padding:13px;box-shadow:none;cursor:pointer}
+#vip-form button:disabled{opacity:.6;cursor:wait}
+.form-note{font-size:.78rem;margin-top:8px;min-height:1em;color:var(--amber)}
+#vip-ok .ok-title{font-weight:900;font-size:1.15rem;margin-bottom:6px}
+#vip-ok .ok-sub{font-size:.9rem;opacity:.85}
+
 /* ---------- FAQ ---------- */
 details{border:2px solid var(--ink);border-radius:12px;background:#fff;margin-bottom:10px}
 summary{cursor:pointer;font-weight:700;font-size:.95rem;padding:15px 18px;list-style:none;display:flex;justify-content:space-between;align-items:center}
@@ -283,7 +303,28 @@ footer p{font-size:.78rem;color:var(--muted)}
           <li>Mensagem individual no seu WhatsApp</li>
           <li>Pagamento por Pix ou cartão</li>
         </ul>
-        <a class="btn" href="https://wa.me/17869833920?text=Quero%20entrar%20na%20lista%20VIP%20do%20Voa%20Alerta">Entrar na lista de espera</a>
+        <div id="vip-form">
+          <div class="fld"><label for="f-nome">Nome</label>
+            <input id="f-nome" type="text" placeholder="Seu nome" autocomplete="name"></div>
+          <div class="fld"><label for="f-zap">WhatsApp (com código do país)</label>
+            <input id="f-zap" type="tel" placeholder="+1 786 000 0000" autocomplete="tel"></div>
+          <div class="fld"><label for="f-origem">De onde você sai?</label>
+            <select id="f-origem">
+              <option value="MIA">Miami (MIA)</option>
+              <option value="FLL">Fort Lauderdale (FLL)</option>
+              <option value="MCO">Orlando (MCO)</option>
+              <option value="JFK">Nova York (JFK)</option>
+              <option value="">Outro / tanto faz</option>
+            </select></div>
+          <div class="fld"><label for="f-dest">Para onde no Brasil? (opcional)</label>
+            <input id="f-dest" type="text" placeholder="ex: São Paulo, Salvador"></div>
+          <button class="btn" id="f-send" type="button" onclick="vipSubmit()">Entrar na lista de espera</button>
+          <p class="form-note" id="f-msg"></p>
+        </div>
+        <div id="vip-ok" style="display:none">
+          <p class="ok-title">✅ Você está na lista!</p>
+          <p class="ok-sub">Assim que o VIP abrir, você será a primeira pessoa a saber — e com desconto de fundador.</p>
+        </div>
       </div>
     </div>
   </div>
@@ -319,5 +360,39 @@ footer p{font-size:.78rem;color:var(--muted)}
   </div>
 </footer>
 
+
+<script>
+// >>> TROQUE AQUI: URL do webhook do seu n8n <<<
+const VIP_WEBHOOK = "https://SEU-N8N-AQUI/webhook/voa-vip";
+
+async function vipSubmit(){
+  const nome = document.getElementById("f-nome").value.trim();
+  const zap  = document.getElementById("f-zap").value.replace(/\D/g,"");
+  const msg  = document.getElementById("f-msg");
+  const btn  = document.getElementById("f-send");
+  if(!nome){ msg.textContent = "Escreva seu nome 🙂"; return; }
+  if(zap.length < 10 || zap.length > 15){
+    msg.textContent = "Confira o WhatsApp — use o código do país (ex: +1 ou +55).";
+    return;
+  }
+  btn.disabled = true; msg.textContent = "Enviando...";
+  try{
+    const r = await fetch(VIP_WEBHOOK, {
+      method:"POST", headers:{"Content-Type":"application/json"},
+      body: JSON.stringify({
+        nome: nome, whatsapp: zap,
+        origem: document.getElementById("f-origem").value,
+        destinos: document.getElementById("f-dest").value.trim(),
+        pagina: location.href, quando: new Date().toISOString()
+      })});
+    if(!r.ok) throw new Error(r.status);
+    document.getElementById("vip-form").style.display = "none";
+    document.getElementById("vip-ok").style.display = "block";
+  }catch(e){
+    btn.disabled = false;
+    msg.textContent = "Ops, algo falhou. Tente de novo em instantes.";
+  }
+}
+</script>
 </body>
 </html>
